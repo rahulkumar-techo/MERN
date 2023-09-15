@@ -69,3 +69,5 @@
 🔗 vscode-icons VS Code Extension
 
 🔗 Github Themes VS Code Extension
+
+[https://github.com/gitdagray/mern_stack_course](https://github.com/gitdagray/mern_stack_course)
