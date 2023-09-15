@@ -1,4 +1,4 @@
-# 💡 Suggested Pre-requisites for this course:
+# 💡 Suggested requisites :
 🔗 Node.js Course for Beginners
 
 🔗 React Course for Beginners
