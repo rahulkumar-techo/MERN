@@ -1,99 +1,129 @@
-# 💡 Suggested requisites :
-🔗 Node.js Course for Beginners
+### Redux Toolkit
 
-🔗 React Course for Beginners
+1. CreateSlice ()
+   This is the initial state .
+2. ConfigureStore(); 
+   This is to save();
+3. actionCreator;
+4. CreateAction
+5. useDispatch
+6. useSelector.
 
-🔗 Redux Toolkit Course for Beginners
 
-🔗 React Login Series
+### # FIRST STEP CREATE A SLICE :
 
-# 📚 MERN Stack References
-🔗 Official Site for MongoDB
+```js
+import {createSlice} from '@redux/toolkit'
 
-🔗 Official Site for Express.js
+const userSlice = createSlice({
+  name:'user',
+  initialState:[],
+  reducers:{
+    addUser(state,action){},
+    removerUser(state,action){},
+    deleteUsers(state,action){},
+  }
+})
+```
 
-🔗 Official Site for React.js
+### # CREATE STORE 
+configure store
 
-🔗 Official Site for Node.js
+```JS
 
- # 📚 Middleware References
-🔗 Express.js: Using Middleware
+import { configureStore } from "@reduxjs/toolkit";
+import UserSlice from "./slice/UserSlice";
 
-🔗 cookie-parser
+const store = configureStore({
+    reducer:{
+        users:UserSlice
+    }
+})
 
-🔗 cors
+export default store;
 
-🔗 express-rate-limiter
+```
+### # 
+To access Reducer in react-reducer
 
-# 📚 React Router References
-🔗 Official Site for React Router
+```js
+// index.js
+import { Provider } from "react-redux";
+import store from './store/index'
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+ <Provider store={store}>
+  <App/>
+ </Provider>
+);
+```
 
-🔗 React Router v6 Tutorial
+### # UPDATE STATE DATA
 
-# 📚 Other React Dependencies
-🔗 Redux Toolkit
+```js
+// TodoForm 
+import React, { useState } from "react";
+// to call directly particular reducer
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/slice/UserSlice";
 
-🔗 FontAwesome Icons
+  const [text, setText] = useState();
+  const dispatch = useDispatch();
 
-🔗 React Spinners
+  const addNewUser = () => {
+    dispatch(addUser(text));
+  }
+```
 
-🔗 @fvilers/disable-react-devtools
+```js
+// addUser
+export const  {addUser} = userSlice.actions;
+```
+### # Access and Display Data/
 
-# 📚 Other Node.js REST API Dependencies
-🔗 date-fns
+```js
+// to get data from state 
+//
 
-🔗 uuid
+import { useSelector } from 'react-redux';
 
-🔗 dotenv
+const data = useState((state)=>{
+return state.users ;
+})
 
-🔗 MongooseJS
+```
 
-🔗 mongoose-sequence
+### Delete a Single data 
 
-🔗 express-async-handler
+```js
+import { checked, removerUser } from "../store/slice/UserSlice";
+import { useDispatch } from "react-redux";
+  const dispatch = useDispatch();
+  const deleteUser = () => {
+    dispatch(removerUser(id));
+  };
+```
 
-🔗 bcrypt
+### # EXTRA REDUCER ?
 
-🔗 jsonwebtoken
+```js
+ // This extra reducer will be appied in all micro reducer to impact the userSlice reducers.
+  // All MICRO reducer can be use it
+  // But have a caution don't delete userSlice -> deleteUsers because it is a main micro reducers.
+  extraReducers(builder) {
+    builder.addCase(userSlice.actions.deleteUsers, () => {
+      return [];
+    });
+  },
+```
 
-🔗 express-async-errors
 
-# ⚙ Tools:
-🔗 React Dev Tools Extension for Chrome
+### # CREATE ACTION FUNCTION
 
-🔗 Redux Devtools
+There is no need to define for a particular reducers.
 
-# ⚙ VS Code Extensions I Use:
-🔗 ES7 React JS Snippets Extension
 
-🔗 vscode-icons VS Code Extension
-
-🔗 Github Themes VS Code Extension
-
-[https://github.com/gitdagray/mern_stack_course](https://github.com/gitdagray/mern_stack_course)
-
----
----
-# User Stories for techNotes
-
-1. [ ] Replace current sticky note system
-2. [ ] Add a public facing page with basic contact info 
-3. [ ] Add an employee login to the notes app 
-4. [ ] Provide a welcome page after login 
-5. [ ] Provide easy navigation
-6. [ ] Display current user and assigned role 
-7. [ ] Provide a logout option 
-8. [ ] Require users to login at least once per week
-9. [ ] Provide a way to remove employee access asap if needed 
-10. [ ] Notes are assigned to specific employees 
-11. [ ] Notes have a ticket #, title, note body, created & updated dates
-12. [ ] Notes are either OPEN or COMPLETED 
-13. [ ] Users can be Employees, Managers, or Admins 
-14. [ ] Notes can only be deleted by Managers or Admins 
-15. [ ] Anyone can create a note (when customer checks-in)
-16. [ ] Employees can only view and edit their assigned notes  
-17. [ ] Managers and Admins can view, edit, and delete all notes 
-18. [ ] Only Managers and Admins can access User Settings 
-19. [ ] Only Managers and Admins can create new users 
-20. [ ] Desktop mode is most important but should be available in mobile 
-
+```js
+import { createAction } from "@reduxjs/toolkit";
+export const deleteUser = createAction('deleteUsers')
+```
